@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const taskList = document.getElementById("taskList");
 
   // Load tasks from the server
-  loadTasksFromServer();
+  // loadTasksFromServer();
 
-  // Add a task
+  // Add a tas
   addTaskBtn.addEventListener("click", async () => {
     const taskText = taskInput.value.trim();
     const taskDate = document.getElementById("taskDate").value;
@@ -17,29 +17,51 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    try {
-      const response = await fetch("/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          task: taskText,
-          due_date: taskDate,
-          priority: taskPriority,
-        }),
-      });
+    const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
 
-      const result = await response.json();
-      if (response.ok) {
-        addTaskToList(taskText, taskDate, taskPriority);
-        taskInput.value = "";
-        document.getElementById("taskDate").value = "";
-        document.getElementById("taskPriority").value = "Low";
-      } else {
-        alert(result.error);
-      }
-    } catch (error) {
-      console.error("Error adding task:", error);
-    }
+const raw = JSON.stringify({
+  "task": taskText,
+  "due_date": taskDate,
+  "priority": taskPriority
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("/tasks", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+
+  //   try {
+  //     const response = await fetch("/tasks", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         "task": taskText,
+  //         "due_date": taskDate,
+  //         "priority": taskPriority,
+  //       }),
+  //     });
+
+  //     // const result = await response.json();
+  //     if (response.ok) {
+  //       // addTaskToList(taskText, taskDate, taskPriority);
+  //       // taskInput.value = "";
+  //       // document.getElementById("taskDate").value = "";
+  //       // document.getElementById("taskPriority").value = "Low";
+  //       console.log("success");
+  //     } else {
+  //       alert(result.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding task:", error);
+  //   }
   });
 
   // Add task to the list

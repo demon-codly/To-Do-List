@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify
 import os
 import json
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 # File to store tasks
 TASK_FILE = "tasks.json"
 
