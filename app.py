@@ -1,28 +1,15 @@
 from flask import Flask, request, jsonify
-import os
-import json
-from datetime import datetime
 from flask_cors import CORS
+from bson.objectid import ObjectId
+from database import MongoDB
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
-# File to store tasks
-TASK_FILE = "tasks.json"
 
-# Load tasks from the file
-def load_tasks():
-    if os.path.exists(TASK_FILE):
-        with open(TASK_FILE, "r") as file:
-            return json.load(file)
-    return []
-
-# Save tasks to the file
-def save_tasks():
-    with open(TASK_FILE, "w") as file:
-        json.dump(tasks, file)
-
-# Initialize tasks
-tasks = load_tasks()
+db_instance = MongoDB()
+db = db_instance.connect()
+tasks_collection = db["tasks"]
 
 def is_valid_date(date_str):
     try:
@@ -31,12 +18,18 @@ def is_valid_date(date_str):
     except ValueError:
         return False
 
-# API to list all tasks
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
+    tasks = []
+    for task in tasks_collection.find():
+        tasks.append({
+            "id": str(task["_id"]),
+            "task": task["task"],
+            "due_date": task.get("due_date", ""),
+            "priority": task.get("priority", "low")
+        })
     return jsonify(tasks)
 
-# API to add a task
 @app.route("/tasks", methods=["POST"])
 def add_task():
     data = request.json
@@ -44,7 +37,6 @@ def add_task():
     due_date = data.get("due_date", "")
     priority = data.get("priority", "low").lower()
 
-    # Validate inputs
     if not task:
         return jsonify({"error": "Task cannot be empty"}), 400
     if due_date and not is_valid_date(due_date):
@@ -52,23 +44,16 @@ def add_task():
     if priority not in ["low", "medium", "high"]:
         return jsonify({"error": "Invalid priority. Choose 'low', 'medium', or 'high'."}), 400
 
-    # Prevent duplicate tasks
-    for existing_task in tasks:
-        if existing_task["task"] == task:
-            return jsonify({"error": f"Task '{task}' already exists!"}), 400
+    task_data = {"task": task, "due_date": due_date, "priority": priority}
+    result = tasks_collection.insert_one(task_data)
+    return jsonify({"message": f"Task '{task}' added successfully", "id": str(result.inserted_id)}), 201
 
-    # Add task
-    tasks.append({"task": task, "due_date": due_date, "priority": priority})
-    save_tasks()
-    return jsonify({"message": f"Task '{task}' added successfully"}), 201
-
-# API to delete a task
-@app.route("/tasks/<string:task_name>", methods=["DELETE"])
-def delete_task(task_name):
-    global tasks
-    tasks = [task for task in tasks if task["task"] != task_name]
-    save_tasks()
-    return jsonify({"message": f"Task '{task_name}' deleted successfully"}), 200
+@app.route("/tasks/<string:task_id>", methods=["DELETE"])
+def delete_task(task_id):
+    result = tasks_collection.delete_one({"_id": ObjectId(task_id)})
+    if result.deleted_count == 0:
+        return jsonify({"error": "Task not found"}), 404
+    return jsonify({"message": "Task deleted successfully"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

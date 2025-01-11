@@ -1,7 +1,13 @@
-/* styles.css */
+:root {
+  --primary-color: #ff9a9e;
+  --secondary-color: #ff6b6b;
+  --background-color: #f9f9f9;
+  --button-hover-color: #3b82db;
+}
+
 body {
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(135deg, var(--primary-color), #fad0c4);
   margin: 0;
   display: flex;
   justify-content: center;
@@ -44,7 +50,7 @@ h1 {
 
 #addTaskBtn {
   padding: 10px 20px;
-  background: #57a1f8;
+  background: var(--button-hover-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -54,7 +60,7 @@ h1 {
 }
 
 #addTaskBtn:hover {
-  background: #3b82db;
+  background: var(--secondary-color);
 }
 
 #taskList {
@@ -69,7 +75,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9f9f9;
+  background: var(--background-color);
   padding: 10px;
   margin: 10px 0;
   border-radius: 5px;
@@ -79,57 +85,41 @@ h1 {
 
 #taskList li .task-details {
   flex-grow: 1;
-  text-align: left;
-  padding-right: 10px;
 }
 
-.task-priority {
-  font-weight: bold;
-  color: #ff6b6b;
-}
-
-.deleteBtn {
-  background: #ff6b6b;
-  color: white;
+#taskList li .deleteBtn {
+  background: var(--secondary-color);
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
+  color: white;
+  padding: 10px;
+  font-size: 0.9rem;
   cursor: pointer;
-  padding: 5px 10px;
   transition: background-color 0.3s ease;
 }
 
-.deleteBtn:hover {
-  background: #e63946;
+#taskList li .deleteBtn:hover {
+  background: #ff4a4a;
+}
+
+#loader {
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  display: none;
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideDown {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes popIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

@@ -1,108 +1,104 @@
 document.addEventListener("DOMContentLoaded", () => {
   const taskInput = document.getElementById("taskInput");
+  const taskDate = document.getElementById("taskDate");
+  const taskPriority = document.getElementById("taskPriority");
   const addTaskBtn = document.getElementById("addTaskBtn");
   const taskList = document.getElementById("taskList");
+  const loader = document.getElementById("loader");
 
-  // Load tasks from the server
-  // loadTasksFromServer();
+  const BASE_URL = "http://127.0.0.1:5000";
 
-  // Add a tas
+  const PRIORITIES = { LOW: "low", MEDIUM: "medium", HIGH: "high" };
+
+  function toggleLoader(show) {
+    loader.style.display = show ? "block" : "none";
+  }
+
+  async function loadTasksFromServer() {
+    toggleLoader(true);
+    try {
+      const response = await fetch(`${BASE_URL}/tasks`);
+      if (!response.ok) throw new Error("Failed to load tasks");
+      const tasks = await response.json();
+      taskList.innerHTML = "";
+      tasks.forEach(({ id, task, due_date, priority }) => {
+        addTaskToList(id, task, due_date, priority);
+      });
+    } catch (error) {
+      console.error("Error loading tasks:", error);
+    } finally {
+      toggleLoader(false);
+    }
+  }
+
   addTaskBtn.addEventListener("click", async () => {
     const taskText = taskInput.value.trim();
-    const taskDate = document.getElementById("taskDate").value;
-    const taskPriority = document.getElementById("taskPriority").value;
+    const dueDate = taskDate.value;
+    const priority = taskPriority.value.toLowerCase();
 
     if (!taskText) {
       alert("Task cannot be empty!");
       return;
     }
 
-    const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+    if (dueDate && isNaN(new Date(dueDate))) {
+      alert("Please enter a valid date.");
+      return;
+    }
 
-const raw = JSON.stringify({
-  "task": taskText,
-  "due_date": taskDate,
-  "priority": taskPriority
-});
+    toggleLoader(true);
+    try {
+      const response = await fetch(`${BASE_URL}/tasks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task: taskText, due_date: dueDate, priority }),
+      });
 
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow"
-};
-
-fetch("/tasks", requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-
-  //   try {
-  //     const response = await fetch("/tasks", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         "task": taskText,
-  //         "due_date": taskDate,
-  //         "priority": taskPriority,
-  //       }),
-  //     });
-
-  //     // const result = await response.json();
-  //     if (response.ok) {
-  //       // addTaskToList(taskText, taskDate, taskPriority);
-  //       // taskInput.value = "";
-  //       // document.getElementById("taskDate").value = "";
-  //       // document.getElementById("taskPriority").value = "Low";
-  //       console.log("success");
-  //     } else {
-  //       alert(result.error);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding task:", error);
-  //   }
+      const result = await response.json();
+      if (response.ok) {
+        loadTasksFromServer();
+        taskInput.value = "";
+        taskDate.value = "";
+        taskPriority.value = PRIORITIES.LOW;
+      } else {
+        alert(result.error);
+      }
+    } catch (error) {
+      console.error("Error adding task:", error);
+    } finally {
+      toggleLoader(false);
+    }
   });
 
-  // Add task to the list
-  function addTaskToList(task, date, priority) {
+  function addTaskToList(id, task, dueDate, priority) {
     const li = document.createElement("li");
     li.innerHTML = `
       <div class="task-details">
-        <span class="task-text">${task}</span><br>
-        <span class="task-date">${date}</span><br>
-        <span class="task-priority">${priority} Priority</span>
+        <span class="task-text"></span><br>
+        <span class="task-date"></span><br>
+        <span class="task-priority"></span>
       </div>
-      <button class="deleteBtn">Delete</button>
+      <button class="deleteBtn" aria-label="Delete Task">Delete</button>
     `;
+    li.querySelector(".task-text").textContent = task;
+    li.querySelector(".task-date").textContent = dueDate || "No due date";
+    li.querySelector(".task-priority").textContent = `${priority.charAt(0).toUpperCase() + priority.slice(1)} Priority`;
 
     li.querySelector(".deleteBtn").addEventListener("click", async () => {
+      toggleLoader(true);
       try {
-        const response = await fetch(`/tasks/${task}`, { method: "DELETE" });
-        const result = await response.json();
-        if (response.ok) {
-          li.remove();
-        } else {
-          alert(result.error);
-        }
+        const response = await fetch(`${BASE_URL}/tasks/${id}`, { method: "DELETE" });
+        if (!response.ok) throw new Error("Failed to delete task");
+        li.remove();
       } catch (error) {
         console.error("Error deleting task:", error);
+      } finally {
+        toggleLoader(false);
       }
     });
 
     taskList.appendChild(li);
   }
 
-  // Load tasks from the server
-  async function loadTasksFromServer() {
-    try {
-      const response = await fetch("/tasks");
-      const tasks = await response.json();
-      tasks.forEach(({ task, due_date, priority }) => {
-        addTaskToList(task, due_date, priority);
-      });
-    } catch (error) {
-      console.error("Error loading tasks:", error);
-    }
-  }
+  loadTasksFromServer();
 });
