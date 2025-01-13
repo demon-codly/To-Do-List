@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const taskList = document.getElementById("taskList");
   const loader = document.getElementById("loader");
 
-  const BASE_URL = "http://127.0.0.1:5000";
+  const BASE_URL = "https://to-do-list-e3mj.onrender.com";
 
   const PRIORITIES = { LOW: "low", MEDIUM: "medium", HIGH: "high" };
 
