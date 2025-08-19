@@ -21,7 +21,6 @@ Manage your daily tasks, set priorities, and stay productive 🚀
 ---
 
 ## 📂 Project Structure
-```bash
 To-Do-List/
 ├── index.html          # Frontend (UI)
 ├── styles.css          # Styling
@@ -30,37 +29,26 @@ To-Do-List/
 ├── database.py         # MongoDB connection setup
 ├── requirements.txt    # Python dependencies
 └── README.md
-```bash
 
 ---
 ##⚡ Installation
 A **Clone the repo**
-```bash
 git clone https://github.com/your-username/To-Do-List.git
 cd To-Do-List
-```bash
 
 B **Setup virtual environment**
-```bash
 python -m venv venv
 source venv/bin/activate   # macOS/Linux
 venv\Scripts\activate      # Windows
-```bash
 
 C **Install dependencies**
-```bash
 pip install -r requirements.txt
-```bash
-
 
 D **Set up MongoDB connection**
 - Update your environment with your MongoDB URI & Database Name.
 
 E **Run the app**
-```bash
 python app.py
-```bash
-
 
 F **Open the app**
 Open `index.html` in your browser 🎉
