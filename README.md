@@ -31,26 +31,28 @@ To-Do-List/
 └── README.md
 
 ---
-##⚡ Installation
-A **Clone the repo**
-git clone https://github.com/your-username/To-Do-List.git
-cd To-Do-List
+## ⚡Installation
+**Clone the repo**
+```bash
+  git clone https://github.com/your-username/To-Do-List.git
+  cd To-Do-List
 
-B **Setup virtual environment**
-python -m venv venv
-source venv/bin/activate   # macOS/Linux
-venv\Scripts\activate      # Windows
+**Setup virtual environment**
+```bash
+  python -m venv venv
+  source venv/bin/activate   # macOS/Linux
+  venv\Scripts\activate      # Windows
 
-C **Install dependencies**
+**Install dependencies**
 pip install -r requirements.txt
 
-D **Set up MongoDB connection**
+**Set up MongoDB connection**
 - Update your environment with your MongoDB URI & Database Name.
 
-E **Run the app**
+**Run the app**
 python app.py
 
-F **Open the app**
+**Open the app**
 Open `index.html` in your browser 🎉
 
 ---
@@ -72,3 +74,72 @@ Open `index.html` in your browser 🎉
 ##👤 Developer
 - 📧 [EMAIL ID](littlecodly@gmail.com)
 - 🌐 [GitHub](https://github.com/demon-codly)
+
+## ⚡ Installation
+
+1.  **Clone the repo**
+    ```
+    git clone https://github.com/your-username/To-Do-List.git
+    cd To-Do-List
+    ```
+
+2.  **Setup virtual environment**
+    ```
+    # Create the virtual environment
+    python -m venv venv
+    ```
+    *   **Activate on macOS/Linux:**
+        ```
+        source venv/bin/activate
+        ```
+    *   **Activate on Windows:**
+        ```
+        venv\Scripts\activate
+        ```
+
+3.  **Install dependencies**
+    ```
+    pip install -r requirements.txt
+    ```
+
+4.  **Set up MongoDB connection**
+    *   Create a `.env` file in the project root.
+    *   Add your MongoDB URI and Database Name to the `.env` file:
+        ```
+        MONGODB_URI="your_mongodb_connection_string"
+        DATABASE_NAME="your_database_name"
+        ```
+
+5.  **Run the app**
+    ```
+    python app.py
+    ```
+
+6.  **Open the app**
+    *   Open the `index.html` file in your browser to see the application 🎉.
+
+---
+
+## 🧩 Skills Gained
+- 🔗 Frontend ↔ Backend API integration
+- 🛠 CRUD operations with MongoDB
+- ⚡ REST API development with Flask
+- 🎨 Building responsive UI with HTML/CSS
+- 🔐 Handling CORS and environment configs
+
+---
+
+## 🤝 Contribution
+
+1. 🍴 Fork the project.
+2. 🌿 Create a new branch (`git checkout -b feature/YourAmazingFeature`).
+3. 🔧 Make your changes and commit them (`git commit -m 'Add some AmazingFeature'`).
+4. 🚀 Submit a Pull Request.
+
+---
+
+## 👤 Developer
+
+- 📧 Email: [littlecodly@gmail.com](mailto:littlecodly@gmail.com)
+- 🌐 GitHub: [demon-codly](https://github.com/demon-codly)
+
