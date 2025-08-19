@@ -21,14 +21,14 @@ Manage your daily tasks, set priorities, and stay productive 🚀
 ---
 
 ## 📂 Project Structure
-To-Do-List/
-├── index.html          # Frontend (UI)
-├── styles.css          # Styling
-├── app.js              # Frontend logic
-├── app.py              # Flask backend API
-├── database.py         # MongoDB connection setup
-├── requirements.txt    # Python dependencies
-└── README.md
+- `To-Do-List/`
+    - `index.html# Frontend (UI)`
+    - `styles.css# Styling`
+    - `app.js# Frontend logic`
+    - `app.py# Flask backend API`
+    - `database.py# MongoDB connection setup`
+    - `requirements.txt# Python dependencies`
+    - `README.md`
 
 ---
 ## ⚡ Installation
