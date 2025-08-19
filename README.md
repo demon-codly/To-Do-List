@@ -30,6 +30,7 @@ To-Do-List/
 ├── database.py         # MongoDB connection setup
 ├── requirements.txt    # Python dependencies
 └── README.md
+```bash
 
 ---
 ##⚡ Installation
@@ -37,16 +38,19 @@ A **Clone the repo**
 ```bash
 git clone https://github.com/your-username/To-Do-List.git
 cd To-Do-List
+```bash
 
 B **Setup virtual environment**
 ```bash
 python -m venv venv
 source venv/bin/activate   # macOS/Linux
 venv\Scripts\activate      # Windows
+```bash
 
 C **Install dependencies**
 ```bash
 pip install -r requirements.txt
+```bash
 
 
 D **Set up MongoDB connection**
@@ -55,6 +59,7 @@ D **Set up MongoDB connection**
 E **Run the app**
 ```bash
 python app.py
+```bash
 
 
 F **Open the app**
