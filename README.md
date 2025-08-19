@@ -30,3 +30,52 @@ To-Do-List/
 ├── database.py         # MongoDB connection setup
 ├── requirements.txt    # Python dependencies
 └── README.md
+
+---
+##⚡ Installation
+A **Clone the repo**
+```bash
+git clone https://github.com/your-username/To-Do-List.git
+cd To-Do-List
+
+B **Setup virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
+
+C **Install dependencies**
+```bash
+pip install -r requirements.txt
+
+
+D **Set up MongoDB connection**
+- Update your environment with your MongoDB URI & Database Name.
+
+E **Run the app**
+```bash
+python app.py
+
+
+F **Open the app**
+Open `index.html` in your browser 🎉
+
+---
+## 🧩 Skills Gained
+- 🔗 Frontend ↔ Backend API integration
+- 🛠 CRUD operations with MongoDB
+- ⚡ REST API development with Flask
+- 🎨 Building responsive UI with HTML/CSS
+- 🔐 Handling CORS and environment configs
+
+---
+##🤝 Contribution
+- 🍴 Fork the project
+- 🌿 Create a new branch
+- 🔧 Make your changes
+- 🚀 Submit a Pull Request
+
+---
+##👤 Developer
+- 📧 [EMAIL ID](littlecodly@gmail.com)
+- 🌐 [GitHub](https://github.com/demon-codly)
